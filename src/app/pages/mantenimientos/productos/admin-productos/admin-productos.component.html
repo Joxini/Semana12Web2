@@ -39,5 +39,6 @@
 </form>
 
 <div>
-  <button mat-button color="primary" (click)="guardar()">Guardar</button>
+  <button mat-button color="primary" [mat-dialog-close]="true"  (click)="guardar()">Guardar</button>
+  <button mat-button color="primary" [mat-dialog-close]>Cerrar</button>
 </div>

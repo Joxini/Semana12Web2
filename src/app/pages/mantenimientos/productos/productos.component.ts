@@ -30,6 +30,10 @@ export class ProductosComponent {
     private mensajeria: ToastrService
   ) {}
   ngOnInit() {
+    this.cargarlista()
+  }
+
+  cargarlista(){
     this.srvProductos.getAll().subscribe(
       (datos) => {
         // console.log(datos);
@@ -66,17 +70,22 @@ export class ProductosComponent {
   }
 
   abrirDialog(producto?: Productos): void {
+    let dialogOpen;
     if (producto) {
-      this.dialog.open(AdminProductosComponent, {
+      dialogOpen = this.dialog.open(AdminProductosComponent, {
         width: '700px',
         height: '700px',
         data: { producto },
       });
     } else {
-      this.dialog.open(AdminProductosComponent, {
+      dialogOpen = this.dialog.open(AdminProductosComponent, {
         width: '700px',
         height: '700px',
       });
     }
+
+    dialogOpen.afterClosed().subscribe((data)=>{
+      this.cargarlista();
+    })
   }
 }

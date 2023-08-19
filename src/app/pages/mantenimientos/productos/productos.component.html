@@ -1,12 +1,23 @@
 <button mat-button color="primary" class="btnAgregar" (click)="abrirDialog()">
   Agregar
 </button>
+
+<!-- Para pasar a formato PDF -->
+<button mat-button color="primary" class="btnAgregar" (click)="exportar()">
+  Generar a PDF
+</button>
+
+<!-- Para pasar de HTML a PDF -->
+<button mat-button color="primary" class="btnAgregar" (click)="exportarHTML()">
+  Esportar de HTML a PDF
+</button>
+
 <mat-form-field>
   <mat-label>Filter</mat-label>
   <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input />
 </mat-form-field>
 
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+<table id = "table" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
   <!-- id Column -->
   <ng-container matColumnDef="id">
     <th mat-header-cell *matHeaderCellDef>ID</th>
@@ -41,7 +52,7 @@
       <button mat-button color="warn" (click)="eliminar(element.id)">
         Eliminar
       </button>
-      <button mat-button (click)="detalle(element)">Eliminar</button>
+      <button mat-button (click)="detalle(element)">Detalle</button>
     </td>
   </ng-container>
 
@@ -54,4 +65,5 @@
       No data matching the filter "{{ input.value }}"
     </td>
   </tr>
+  
 </table>

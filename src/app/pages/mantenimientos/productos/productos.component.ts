@@ -5,6 +5,7 @@ import { Productos } from 'src/app/shared/models/productos';
 import { ProductosService } from 'src/app/shared/services/productos.service';
 import { AdminProductosComponent } from './admin-productos/admin-productos.component';
 import { ToastrService } from 'ngx-toastr';
+import { ExportPDFService } from 'src/app/shared/services/export-pdf.service';
 
 // const ELEMENT_DATA: Productos[] = [];
 
@@ -27,7 +28,8 @@ export class ProductosComponent {
   constructor(
     private srvProductos: ProductosService,
     public dialog: MatDialog,
-    private mensajeria: ToastrService
+    private mensajeria: ToastrService,
+    private srvExport: ExportPDFService
   ) {}
   ngOnInit() {
     this.cargarlista()
@@ -87,5 +89,32 @@ export class ProductosComponent {
     dialogOpen.afterClosed().subscribe((data)=>{
       this.cargarlista();
     })
+  }
+
+  exportar(){
+    const datos = this.dataSource.data.map((pro:any) => {
+      const row= [
+        pro.id,
+        pro.nombre,
+        pro.categoria.nombre,
+        pro.precio
+      ]
+      return row;
+    })
+    // Mandar los productos
+    this.srvExport.imprimir(this.displayedColumns, datos, 'Lista Productos', true, 'productos');
+  }
+
+  exportarHTML(){
+    try {
+
+      const page = document.querySelector('table') as HTMLElement;
+
+      console.log(page)
+      this.srvExport.imprimirHTML(page,'TablaProductos')
+
+    } catch (error) {
+      
+    }
   }
 }
